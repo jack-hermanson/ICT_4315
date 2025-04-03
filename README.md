@@ -1,2 +1,6 @@
-# ICT_4315
- Parking lot application for ICT 4315
+# ICT4315 Object Oriented Programming
+
+## Contributors
+
+- Nathan Braun
+- Jack Hermanson
