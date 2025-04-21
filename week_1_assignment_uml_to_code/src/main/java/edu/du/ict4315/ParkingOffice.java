@@ -12,7 +12,7 @@ public class ParkingOffice {
     private Address parkingOfficeAddress;
 
     public String getParkingOfficeName() {
-        return ""; // todo
+        return this.parkingOfficeName; // todo
     }
 
     public void register(Customer customer) {
