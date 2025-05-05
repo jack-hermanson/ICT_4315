@@ -5,13 +5,14 @@ import edu.du.ict4315.parking.charges.strategy.EntryOnlyChargeStrategy;
 import edu.du.ict4315.parking.charges.strategy.ParkingChargeStrategy;
 import edu.du.ict4315.parking.constants.Discounts;
 
-import java.lang.instrument.IllegalClassFormatException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ParkingLot {
+public class ParkingLot extends Observable<ParkingEvent> {
     public final String id;
     public final String name;
     public final Address address;
@@ -50,6 +51,16 @@ public class ParkingLot {
         if (this.lotType == LotType.ENTRY_ONLY) {
             // Parking transactions are created at the time of entry.
             // Therefore, we need to return a transaction now.
+
+            ParkingEvent parkingEvent = new ParkingEvent(
+                ParkingEvent.EventType.ENTRY,
+                this,
+                parkingPermit,
+                entryTime
+            );
+
+            this.notifyObservers(parkingEvent);
+
             return new ParkingTransaction(
                 LocalDate.from(entryTime),
                 parkingPermit,
@@ -91,6 +102,15 @@ public class ParkingLot {
 
         // Remove the vehicle.
         this.permitsInLot.remove(parkingPermit);
+
+        ParkingEvent parkingEvent = new ParkingEvent(
+            ParkingEvent.EventType.EXIT,
+            this,
+            parkingPermit,
+            exitTime
+        );
+
+        this.notifyObservers(parkingEvent);
 
         // Calculate the charge.
         return new ParkingTransaction(

@@ -48,7 +48,7 @@ class TransactionManagerTest {
         ParkingLot.LotType.ENTRY_AND_EXIT
     );
 
-      private final ParkingLot entryOnlyLot = new ParkingLot(
+    private final ParkingLot entryOnlyLot = new ParkingLot(
         "",
         new Address("", "", "", "", ""),
         new Money(10, 0), // $10/day
@@ -56,7 +56,7 @@ class TransactionManagerTest {
     );
 
 
-      @Test
+    @Test
     void testEntryAndExitSingleDayCompact() {
         // Entered at 9am.
         LocalDateTime entry = LocalDateTime.of(
@@ -116,7 +116,7 @@ class TransactionManagerTest {
 
         // Should have 3 days worth of transactions.
         // Simulate the enforcement vehicle scanning the permit on each of those days.
-        ParkingTransaction[] transactions = new ParkingTransaction[] {
+        ParkingTransaction[] transactions = new ParkingTransaction[]{
             this.transactionManager.park(this.permitForNormalCar, this.entryOnlyLot, entry, null),
             this.transactionManager.park(this.permitForNormalCar, this.entryOnlyLot, secondDay, null),
             this.transactionManager.park(this.permitForNormalCar, this.entryOnlyLot, thirdDay, null),
@@ -137,6 +137,27 @@ class TransactionManagerTest {
             ),
             totalCharges
         );
+    }
+
+
+    // Week 5
+    @Test
+    void testParkingEvent() {
+        // Entered at 9am.
+        LocalDateTime entry = LocalDateTime.of(
+            LocalDate.of(2025, 1, 1),
+            LocalTime.of(9, 0)
+        );
+
+        ParkingTransaction transaction = this.transactionManager.park(new ParkingEvent(
+            ParkingEvent.EventType.ENTRY,
+            this.entryOnlyLot,
+            this.permitForNormalCar,
+            entry
+        ));
+
+        assertEquals(transaction.getChargedAmount(), this.entryOnlyLot.getDailyRate(this.permitForNormalCar.getCar().getType()));
+
     }
 
 }

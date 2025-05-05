@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>week_4_assignment</artifactId>
+    <artifactId>week_5_assignment</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
