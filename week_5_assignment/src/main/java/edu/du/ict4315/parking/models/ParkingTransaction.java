@@ -22,4 +22,8 @@ public class ParkingTransaction {
     public Money getChargedAmount() {
         return this.chargedAmount;
     }
+
+    public LocalDate getDate() {
+        return this.date;
+    }
 }
