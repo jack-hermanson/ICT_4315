@@ -3,7 +3,7 @@ package edu.du.ict4315.parking.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Observable<TEvent> {
+public class Observable<TEvent> {
     protected final List<Observer<TEvent>> observers = new ArrayList<>();
 
     public final void notifyObservers(TEvent event) {

@@ -7,8 +7,6 @@ import edu.du.ict4315.parking.constants.Discounts;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -129,6 +127,10 @@ public class ParkingLot extends Observable<ParkingEvent> {
         if (carType == Car.CarType.COMPACT) {
             return Money.applyDiscount(this.dailyRate, Discounts.COMPACT_DISCOUNT);
         }
+        return this.dailyRate;
+    }
+
+    public Money getDailyRate() {
         return this.dailyRate;
     }
 
