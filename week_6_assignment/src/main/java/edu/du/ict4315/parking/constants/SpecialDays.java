@@ -1,9 +1,11 @@
-package edu.du.ict4315.parking.charges.strategy;
+package edu.du.ict4315.parking.constants;
 
 import edu.du.ict4315.parking.models.Money;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Arrays;
 
 
 public class SpecialDays {
@@ -22,4 +24,12 @@ public class SpecialDays {
     public static final Money specialDayDailyRate = new Money(
         10, 0
     );
+
+    public static boolean isSpecialDay(LocalDate localDate) {
+        return Arrays.asList(specialDays).contains(localDate);
+    }
+
+    public static boolean isSpecialDay(LocalDateTime localDateTime) {
+        return isSpecialDay(localDateTime.toLocalDate());
+    }
 }
