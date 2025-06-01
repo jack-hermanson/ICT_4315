@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>week_1_assignment_uml_to_code</module>
-        <module>week_8_assignment</module>
+        <module>week_9_assignment</module>
     </modules>
 
     <properties>
