@@ -7,8 +7,8 @@ import edu.du.ict4315.parking.constants.Discounts;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ParkingLot extends Observable<ParkingEvent> {
     public final String id;
@@ -16,7 +16,7 @@ public class ParkingLot extends Observable<ParkingEvent> {
     public final Address address;
     private final Money dailyRate;
     public final LotType lotType;
-    private final HashMap<ParkingPermit, LocalDateTime> permitsInLot;
+    private final ConcurrentHashMap<ParkingPermit, LocalDateTime> permitsInLot;
     private final ParkingChargeStrategy parkingChargeStrategy;
 
     public ParkingLot(String name, Address address, Money dailyRate, LotType lotType) {
@@ -25,7 +25,7 @@ public class ParkingLot extends Observable<ParkingEvent> {
         this.address = address;
         this.dailyRate = dailyRate;
         this.lotType = lotType;
-        this.permitsInLot = new HashMap<>();
+        this.permitsInLot = new ConcurrentHashMap<>();
         if (lotType == LotType.ENTRY_ONLY) {
             this.parkingChargeStrategy = new EntryOnlyChargeStrategy();
         } else if (lotType == LotType.ENTRY_AND_EXIT) {
@@ -41,8 +41,9 @@ public class ParkingLot extends Observable<ParkingEvent> {
      * Handles the entry of a car into a lot.
      * If this is an entry-only lot, we generate and return a ParkingTransaction immediately.
      * If this is an entry and exit lot, we wait until exit to generate a transaction.
+     *
      * @param parkingPermit The permit on the car that is entering the lot.
-     * @param entryTime The exact time the vehicle is entering the lot.
+     * @param entryTime     The exact time the vehicle is entering the lot.
      * @return A transaction if this is an entry-only lot, otherwise null.
      */
     public ParkingTransaction scanOnEntry(ParkingPermit parkingPermit, LocalDateTime entryTime) {
@@ -85,8 +86,9 @@ public class ParkingLot extends Observable<ParkingEvent> {
     /**
      * Handles the exit of a car from an ENTRY_AND_EXIT lot.
      * This should NOT be called for an ENTRY_ONLY lot, or it will throw an exception.
+     *
      * @param parkingPermit The permit on the car that is exiting the lot.
-     * @param exitTime The exact time the vehicle is entering the lot.
+     * @param exitTime      The exact time the vehicle is entering the lot.
      * @return The transaction for this ENTRY_AND_EXIT lot, now that it knows when the vehicle entered and exited.
      */
     public ParkingTransaction scanOnExit(ParkingPermit parkingPermit, LocalDateTime exitTime) {
