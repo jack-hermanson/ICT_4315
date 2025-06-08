@@ -11,6 +11,7 @@
     <modules>
         <module>week_1_assignment_uml_to_code</module>
         <module>week_9_assignment</module>
+        <module>week_10</module>
     </modules>
 
     <properties>
