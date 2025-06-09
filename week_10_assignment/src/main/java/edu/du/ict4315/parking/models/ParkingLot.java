@@ -1,5 +1,6 @@
 package edu.du.ict4315.parking.models;
 
+import com.google.inject.Singleton;
 import edu.du.ict4315.parking.charges.strategy.EntryAndExitChargeStrategy;
 import edu.du.ict4315.parking.charges.strategy.EntryOnlyChargeStrategy;
 import edu.du.ict4315.parking.charges.strategy.ParkingChargeStrategy;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Singleton
 public class ParkingLot extends Observable<ParkingEvent> {
     public final String id;
     public final String name;
@@ -77,6 +79,8 @@ public class ParkingLot extends Observable<ParkingEvent> {
             // Therefore, we need to keep track of when it entered,
             // but do not want to return a transaction yet.
             this.permitsInLot.put(parkingPermit, entryTime);
+            System.out.println(parkingPermit.getCar().getLicensePlate() + " entered the lot; number of cars in lot: "
+                + this.permitsInLot.mappingCount());
             return null;
         }
 
@@ -111,6 +115,9 @@ public class ParkingLot extends Observable<ParkingEvent> {
         );
 
         this.notifyObservers(parkingEvent);
+
+        System.out.println(parkingPermit.getCar().getLicensePlate() + " exited the lot; number of cars in lot: "
+            + this.permitsInLot.mappingCount());
 
         // Calculate the charge.
         return new ParkingTransaction(

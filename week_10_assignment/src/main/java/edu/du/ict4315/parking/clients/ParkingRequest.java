@@ -1,7 +1,5 @@
 package edu.du.ict4315.parking.clients;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import edu.du.ict4315.parking.serialization.JsonSerializer;
 

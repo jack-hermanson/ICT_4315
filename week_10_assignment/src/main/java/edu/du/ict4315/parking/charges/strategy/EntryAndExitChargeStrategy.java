@@ -1,10 +1,12 @@
 package edu.du.ict4315.parking.charges.strategy;
 
+import com.google.inject.Singleton;
 import edu.du.ict4315.parking.models.Money;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Singleton
 public class EntryAndExitChargeStrategy implements ParkingChargeStrategy {
 
     @Override

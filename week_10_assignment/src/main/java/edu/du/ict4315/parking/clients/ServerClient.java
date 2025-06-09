@@ -1,13 +1,11 @@
 package edu.du.ict4315.parking.clients;
 
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Properties;
@@ -24,18 +22,7 @@ public class ServerClient {
                 "java ServerClient <CAR|CUSTOMER> key=value [key=value ...]");
         }
 
-        String commandName = args[0]; // CAR, CUSTOMER
-
-        Properties properties = new Properties();
-        String[] parameters = Arrays.copyOfRange(args, 1, args.length);
-        for (String parameter : parameters) {
-            String[] splitCommand = parameter.split("=", 2);
-            properties.setProperty(splitCommand[0], splitCommand[1]);
-        }
-
-        // Create a request object
-        ParkingRequest request = new ParkingRequest(commandName, properties);
-        String requestJson = request.toJson();
+        String requestJson = requestArgsToJson(args);
 
         // Send POST request
         URL url = new URL(COMMAND_URL);
@@ -59,5 +46,20 @@ public class ServerClient {
         }
 
         connection.disconnect();
+    }
+
+    private static String requestArgsToJson(String[] args) {
+        String commandName = args[0]; // CAR, CUSTOMER, ENTER, EXIT (enter/exit are new for week 10)
+
+        Properties properties = new Properties();
+        String[] parameters = Arrays.copyOfRange(args, 1, args.length);
+        for (String parameter : parameters) {
+            String[] splitCommand = parameter.split("=", 2);
+            properties.setProperty(splitCommand[0], splitCommand[1]);
+        }
+
+        // Create a request object
+        ParkingRequest request = new ParkingRequest(commandName, properties);
+        return request.toJson();
     }
 }
